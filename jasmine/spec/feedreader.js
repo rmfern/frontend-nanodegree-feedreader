@@ -56,7 +56,7 @@ $(function() {
          });
 
          it('get initial feed elements', function() {
-           expect($('.feed').children().length > 0).toBe(true);
+           expect($('.feed').children().length).toBeGreaterThan(0);
          })
 
 
@@ -65,9 +65,16 @@ $(function() {
     //Test to ensure new content is loading with new feed
     describe('New Feed Selection', function() {
       let oldContent;
+      let newContent;
       beforeEach(function(done) {
-        oldContent = $('header-title').html();
-        loadFeed(0, done);
+
+        loadFeed(0, function(){
+          oldContent = $('header-title').html();
+          loadFeed(1, function() {
+            //newContent = $('header-title').html();
+            done();
+          })
+        });
       });
 
       it('should check for new content', function() {
